@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DialogBox extends StatelessWidget {
+class DialogWidget extends StatelessWidget {
   final controller;
   VoidCallback onSave;
   VoidCallback onCancel;
 
-  DialogBox({
+  DialogWidget({
     super.key,
     required this.controller,
     required this.onSave,

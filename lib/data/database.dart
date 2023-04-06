@@ -7,7 +7,7 @@ class ToDoDataBase {
   void createInitialData() {
     toDoList = [
       ["Test Todo List App", true],
-      ["Create a native widget", false],
+      ["Slide me to left to delete", false],
     ];
   }
 

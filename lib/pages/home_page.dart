@@ -3,7 +3,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../data/database.dart';
-import './components/dialog_box.dart';
+import 'components/dialog_widget.dart';
+import 'components/todo_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context, 
       builder: (context) {
-        return DialogBox(
+        return DialogWidget(
           controller: _controller,
           onSave: saveNewTask,
           onCancel: () => Navigator.of(context).pop(),
@@ -80,11 +81,11 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
-          return _todoCell(
-            db.toDoList[index][1], 
-            db.toDoList[index][0], 
-            (value) => checkBoxChanged(value, index),
-            (value) => deleteTask(index)
+          return ToDoWidget(
+            taskName: db.toDoList[index][0],
+            taskCompleted: db.toDoList[index][1], 
+            onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (value) => deleteTask(index)
           );
         },
       ),

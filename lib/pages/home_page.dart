@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../data/database.dart';
 import './components/dialog_box.dart';
@@ -28,8 +29,6 @@ class _HomePageState extends State<HomePage> {
 
     super.initState();
   }
-
-  // TODO: - Delete
 
   void checkBoxChanged(bool? value, int index) {
     setState(() {
@@ -60,6 +59,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void deleteTask(int index) {
+    setState(() {
+      db.toDoList.removeAt(index);
+    });
+    db.updateDataBase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,38 +83,52 @@ class _HomePageState extends State<HomePage> {
           return _todoCell(
             db.toDoList[index][1], 
             db.toDoList[index][0], 
-            (value) => checkBoxChanged(value, index)
+            (value) => checkBoxChanged(value, index),
+            (value) => deleteTask(index)
           );
         },
       ),
     );
   }
 
-  Widget _todoCell(bool taskCompleted, String taskName, Function(bool?)? onChanged) {
+  Widget _todoCell(bool taskCompleted, String taskName, Function(bool?)? onChanged, Function(BuildContext)? deleteFunction) {
     return Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25, top: 25),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white54,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
+      child: Slidable(
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
           children: [
-            Checkbox(
-              value: taskCompleted,
-              onChanged: onChanged,
-              activeColor: Colors.black,
-            ),
-            Text(
-              taskName,
-              style: TextStyle(
-                decoration: taskCompleted
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-              ),
-            ),
+            SlidableAction(
+              onPressed: deleteFunction,
+              icon: Icons.delete,
+              backgroundColor: Colors.red,
+              borderRadius: BorderRadius.circular(12),
+            )
           ],
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white54,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Checkbox(
+                value: taskCompleted,
+                onChanged: onChanged,
+                activeColor: Colors.black,
+              ),
+              Text(
+                taskName,
+                style: TextStyle(
+                  decoration: taskCompleted
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

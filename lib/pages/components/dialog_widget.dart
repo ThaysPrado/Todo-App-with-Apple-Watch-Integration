@@ -39,7 +39,6 @@ class DialogWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 MaterialButton(
                   onPressed: onCancel,
-                  // color: Theme.of(context).primaryColor,
                   child: const Text("Cancel"),
                 ),
               ],

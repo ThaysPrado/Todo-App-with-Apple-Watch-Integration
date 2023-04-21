@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../data/database.dart';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   final _todoBox = Hive.box('todoBox');
   ToDoDataBase db = ToDoDataBase();
   final _controller = TextEditingController();
+  final channel = MethodChannel('.watchkitapp');
 
   @override
   void initState() {
@@ -30,11 +32,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void checkBoxChanged(bool? value, int index) {
+  void checkBoxChanged(bool? value, int index) async {
     setState(() {
       db.toDoList[index][1] = !db.toDoList[index][1];
     });
     db.updateDataBase();
+    // Send data to Native
+    await channel.invokeMethod("flutterToWatch", {"method": "sendMsgToNative", "data": "Task 1", "status": false});
   }
 
   void saveNewTask() {

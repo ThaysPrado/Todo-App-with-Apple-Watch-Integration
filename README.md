@@ -1,16 +1,30 @@
-# todo_app
+# Flutter App with Apple Watch Integration
+This is a Flutter application that includes integration with the Apple Watch. The app uses some additional libraries for integration with the Apple watch.
+This project is a proof-of-concept (POC) project, with the goal of demonstrating the feasibility of having a Flutter app with integration for an Apple Watch app.
+Important information for the development of the project:
 
-A new Flutter project.
+- [Platform Integration](https://docs.flutter.dev/development/platform-integration/platform-channels?tab=type-mappings-swift-tab)
+- [Add Apple watch to flutter app](https://medium.com/kbtg-life/adding-apple-watch-to-flutter-app-via-flutter-method-channel-f1443532d94e)
 
-## Getting Started
+## Installation
+Make sure you have Flutter installed on your machine.
 
-This project is a starting point for a Flutter application.
+- Clone this repository
+- Install the project dependencies: flutter packages get
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
+To run the application, use the command flutter run in the terminal from the root directory of the project. You can also run the app on a device simulator or a connected physical device.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Libraries Used
+The application uses the following libraries:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- flutter
+- flutter_slidable
+- hive
+
+
+## Contribution
+Contributions are always welcome! If you would like to contribute to this project, open a pull request with your changes.
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.

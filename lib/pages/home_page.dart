@@ -30,7 +30,23 @@ class _HomePageState extends State<HomePage> {
     }
 
     super.initState();
+    _initFlutterChannel();
     sendDataToNative();
+  }
+  
+  Future<void> _initFlutterChannel() async {
+    channel.setMethodCallHandler((call) async {
+      // Receive data from Native
+      switch (call.method) {
+        case "updateFromNative":
+          var index = call.arguments["data"]["index"];
+          var status = call.arguments["data"]["status"];
+          checkBoxChanged(status, index);
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   void sendDataToNative() async {

@@ -14,20 +14,24 @@ struct ContentView: View {
     var body: some View {
         VStack {
             List {
-                ForEach($viewModel.taskList.wrappedValue, id: \.self) { task in
-                    Button(action: teste) {
+                ForEach(Array(viewModel.taskList.enumerated()), id: \.element) { index, task in
+                    Button(action: {
+                        self.updateTask(index, task.status)
+                    }, label: {
                         HStack {
                             Image(systemName: self.getIcon(task.status))
                             Text(task.text)
                         }
-                    }
+                    })
                 }
             }
         }
         .padding()
     }
     
-    func teste() { }
+    func updateTask(_ index: Int, _ status: Bool) {
+        viewModel.updateTask(index: index, status: !status)
+    }
     
     func getIcon(_ status: Bool) -> String {
         if status {

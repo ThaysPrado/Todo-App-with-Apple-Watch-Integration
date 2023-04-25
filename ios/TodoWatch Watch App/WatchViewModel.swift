@@ -19,7 +19,7 @@ class WatchViewModel: NSObject, ObservableObject {
     
     // Add more cases if you have more sending method
     enum WatchSendMethod: String {
-        case sendMsgToFlutter
+        case updateFromNative
     }
     
     init(session: WCSession = .default) {
@@ -29,8 +29,13 @@ class WatchViewModel: NSObject, ObservableObject {
         session.activate()
     }
     
-    func sendDataMessage(for method: WatchSendMethod, data: [String: Any] = [:]) {
-        sendMessage(for: method.rawValue, data: data)
+    private func sendData(for method: WatchSendMethod, data: [String: Any] = [:]) {
+        sendData(for: method.rawValue, data: data)
+    }
+    
+    func updateTask(index: Int, status: Bool) {
+        taskList[index].status = status
+        sendData(for: WatchSendMethod.updateFromNative, data: ["index": index, "status": status])
     }
     
     private func makeTaskList(_ origin: [Any]) -> [Task] {
@@ -47,9 +52,7 @@ class WatchViewModel: NSObject, ObservableObject {
 
 extension WatchViewModel: WCSessionDelegate {
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
-    }
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
     // Receive message From AppDelegate.swift that send from iOS devices
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
@@ -65,7 +68,7 @@ extension WatchViewModel: WCSessionDelegate {
         }
     }
     
-    func sendMessage(for method: String, data: [String: Any] = [:]) {
+    func sendData(for method: String, data: [String: Any] = [:]) {
         guard session.isReachable else {
             return
         }

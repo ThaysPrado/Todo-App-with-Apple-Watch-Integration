@@ -24,6 +24,8 @@ The application uses the following libraries:
 - flutter_slidable
 - hive
 
+## Demo
+![](https://github.com/ThaysPrado/Todo-App-with-Apple-Watch-Integration/blob/main/gif/watchapp.gif)
 
 ## Contribution
 Contributions are always welcome! If you would like to contribute to this project, open a pull request with your changes.

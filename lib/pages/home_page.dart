@@ -30,6 +30,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     super.initState();
+    sendDataToNative();
+  }
+
+  void sendDataToNative() async {
+    await channel.invokeMethod("flutterToWatch", {"method": "sendDataToNative", "data": db.toDoList});
   }
 
   void checkBoxChanged(bool? value, int index) async {
@@ -37,8 +42,6 @@ class _HomePageState extends State<HomePage> {
       db.toDoList[index][1] = !db.toDoList[index][1];
     });
     db.updateDataBase();
-    // Send data to Native
-    await channel.invokeMethod("flutterToWatch", {"method": "sendMsgToNative", "data": "Task 1", "status": false});
   }
 
   void saveNewTask() {

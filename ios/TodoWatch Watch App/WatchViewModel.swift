@@ -10,12 +10,11 @@ import WatchConnectivity
 
 class WatchViewModel: NSObject, ObservableObject {
     var session: WCSession
-    @Published var taskText = ""
-    @Published var status = false
+    @Published var taskList = [Task]()
     
     // Add more cases if you have more receive method
     enum WatchReceiveMethod: String {
-        case sendMsgToNative
+        case sendDataToNative
     }
     
     // Add more cases if you have more sending method
@@ -34,6 +33,16 @@ class WatchViewModel: NSObject, ObservableObject {
         sendMessage(for: method.rawValue, data: data)
     }
     
+    private func makeTaskList(_ origin: [Any]) -> [Task] {
+        var tasks = [Task]()
+        for item in origin {
+            if let task = item as? [Any], task.count > 1, let text = task[0] as? String, let status = task[1] as? Bool {
+                tasks.append(Task(text: text, status: status))
+            }
+        }
+        return tasks
+    }
+    
 }
 
 extension WatchViewModel: WCSessionDelegate {
@@ -50,9 +59,8 @@ extension WatchViewModel: WCSessionDelegate {
             }
             
             switch enumMethod {
-            case .sendMsgToNative:
-                self.taskText = (message["data"] as? String) ?? ""
-                self.status = (message["status"] as? Bool) ?? false
+            case .sendDataToNative:
+                self.taskList = self.makeTaskList(message["data"] as? [Any] ?? [Any]())
             }
         }
     }

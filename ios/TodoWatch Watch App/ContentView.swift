@@ -13,10 +13,14 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Button(action: teste) {
-                HStack {
-                    Image(systemName: self.getIcon())
-                    Text(self.getTask())
+            List {
+                ForEach($viewModel.taskList.wrappedValue, id: \.self) { task in
+                    Button(action: teste) {
+                        HStack {
+                            Image(systemName: self.getIcon(task.status))
+                            Text(task.text)
+                        }
+                    }
                 }
             }
         }
@@ -25,16 +29,12 @@ struct ContentView: View {
     
     func teste() { }
     
-    func getIcon() -> String {
-        if viewModel.status {
+    func getIcon(_ status: Bool) -> String {
+        if status {
             return "checkmark.circle.fill"
         }
-        
+
         return "circle"
-    }
-    
-    func getTask() -> String {
-        return viewModel.taskText
     }
 }
 
